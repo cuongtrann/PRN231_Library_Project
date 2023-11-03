@@ -22,8 +22,6 @@
   <ItemGroup>
     <Folder Include="BusinessObject\DTO\" />
     <Folder Include="BusinessObject\Mapping\" />
-    <Folder Include="DataAccess\DAO\" />
-    <Folder Include="BusinessObject\Repository\" />
     <Folder Include="Service\" />
   </ItemGroup>
 
