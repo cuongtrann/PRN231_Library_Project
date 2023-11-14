@@ -5,6 +5,14 @@ namespace PRN231_Library_Project.DataAccess.Models
 {
     public partial class Checkout
     {
+        public Checkout(string? userEmail, string? checkoutDate, string? returnDate, int bookId)
+        {
+            UserEmail = userEmail;
+            CheckoutDate = checkoutDate;
+            ReturnDate = returnDate;
+            BookId = bookId;
+        }
+
         public int Id { get; set; }
         public string? UserEmail { get; set; }
         public string? CheckoutDate { get; set; }

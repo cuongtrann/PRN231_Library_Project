@@ -17,9 +17,10 @@ namespace PRN231_Library_Project.DataAccess.Models
         }
 
         public virtual DbSet<Book> Books { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Checkout> Checkouts { get; set; } = null!;
+        public virtual DbSet<History> Histories { get; set; } = null!;
         public virtual DbSet<Message> Messages { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,7 +45,14 @@ namespace PRN231_Library_Project.DataAccess.Models
                     .IsUnicode(false)
                     .HasColumnName("author");
 
-                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+                entity.Property(e => e.BookContent)
+                    .IsUnicode(false)
+                    .HasColumnName("book_content");
+
+                entity.Property(e => e.Category)
+                    .HasMaxLength(150)
+                    .IsUnicode(false)
+                    .HasColumnName("category");
 
                 entity.Property(e => e.Copies).HasColumnName("copies");
 
@@ -54,30 +62,13 @@ namespace PRN231_Library_Project.DataAccess.Models
                     .IsUnicode(false)
                     .HasColumnName("description");
 
-                entity.Property(e => e.Img).HasColumnName("img");
-
-                entity.Property(e => e.Tittle)
-                    .HasMaxLength(45)
+                entity.Property(e => e.Img)
                     .IsUnicode(false)
-                    .HasColumnName("tittle");
+                    .HasColumnName("img");
 
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Books)
-                    .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_book_category");
-            });
-
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.ToTable("category");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(45)
+                entity.Property(e => e.Title)
                     .IsUnicode(false)
-                    .HasColumnName("name");
+                    .HasColumnName("title");
             });
 
             modelBuilder.Entity<Checkout>(entity =>
@@ -110,6 +101,46 @@ namespace PRN231_Library_Project.DataAccess.Models
                     .HasConstraintName("FK_checkout_book");
             });
 
+            modelBuilder.Entity<History>(entity =>
+            {
+                entity.ToTable("history");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Author)
+                    .HasMaxLength(45)
+                    .IsUnicode(false)
+                    .HasColumnName("author");
+
+                entity.Property(e => e.CheckoutDate)
+                    .HasMaxLength(45)
+                    .IsUnicode(false)
+                    .HasColumnName("checkout_date");
+
+                entity.Property(e => e.Description)
+                    .IsUnicode(false)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Img)
+                    .IsUnicode(false)
+                    .HasColumnName("img");
+
+                entity.Property(e => e.ReturnedDate)
+                    .HasMaxLength(45)
+                    .IsUnicode(false)
+                    .HasColumnName("returned_date");
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(45)
+                    .IsUnicode(false)
+                    .HasColumnName("title");
+
+                entity.Property(e => e.UserEmail)
+                    .HasMaxLength(45)
+                    .IsUnicode(false)
+                    .HasColumnName("user_email");
+            });
+
             modelBuilder.Entity<Message>(entity =>
             {
                 entity.ToTable("messages");
@@ -131,14 +162,29 @@ namespace PRN231_Library_Project.DataAccess.Models
                     .IsUnicode(false)
                     .HasColumnName("response");
 
-                entity.Property(e => e.Tittle)
+                entity.Property(e => e.Title)
                     .HasMaxLength(45)
                     .IsUnicode(false)
-                    .HasColumnName("tittle");
+                    .HasColumnName("title");
 
                 entity.Property(e => e.UserEmail)
                     .HasMaxLength(45)
                     .IsUnicode(false)
+                    .HasColumnName("user_email");
+            });
+
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.ToTable("payment");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.UserEmail)
+                    .HasMaxLength(150)
                     .HasColumnName("user_email");
             });
 
