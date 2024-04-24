@@ -13,6 +13,6 @@ namespace PRN231_Library_Project.BusinessObject.Repository.IRepository
         void save(Book book);
         List<BookDTO> FindBooksByBookIds(List<long> bookIdList);
         void AddBook(AddBookRequest addBookRequest);
-        void Delete(object book);
+        void Delete(int bookId);
     }
 }

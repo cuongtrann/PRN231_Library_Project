@@ -52,18 +52,16 @@ namespace PRN231_Library_Project.Service
             bookRepository.save(book);
         }
 
-        public void DeleteBook(long bookId)
+        public void DeleteBook(int bookId)
         {
-            //var book = bookRepository.FindById(bookId);
+            var book = bookRepository.findById(bookId);
 
-            //if (book == null)
-            //{
-            //    throw new Exception("Book not found");
-            //}
+            if (book == null)
+            {
+                throw new Exception("Book not found");
+            }
 
-            //bookRepository.Delete(book);
-            //checkoutRepository.DeleteAllByBookId(bookId);
-            //reviewRepository.DeleteAllByBookId(bookId);
+            bookRepository.Delete(bookId);
         }
     }
 }

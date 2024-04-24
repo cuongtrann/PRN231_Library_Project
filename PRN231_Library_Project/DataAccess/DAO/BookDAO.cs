@@ -114,5 +114,23 @@ namespace PRN231_Library_Project.DataAccess.DAO
             context.Books.Add(book);            
             context.SaveChanges();
         }
+
+        public void Delete(int bookId)
+        {
+            try
+            {
+                List<Review> reviews = context.Reviews.Where(x => x.BookId == bookId).ToList();
+                context.RemoveRange(reviews);
+                List<Checkout> checkouts = context.Checkouts.Where(x => x.BookId == bookId).ToList();
+                context.RemoveRange(checkouts);
+                Book book = context.Books.FirstOrDefault(x => x.Id == bookId);
+                context.Remove(book);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

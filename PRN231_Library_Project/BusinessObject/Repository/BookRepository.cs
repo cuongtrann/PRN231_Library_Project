@@ -22,9 +22,9 @@ namespace PRN231_Library_Project.BusinessObject.Repository
             bookDAO.AddBook(mapper.Map<Book>(addBookRequest));
         }
 
-        public void Delete(object book)
+        public void Delete(int bookId)
         {
-            throw new NotImplementedException();
+            bookDAO.Delete(bookId);
         }
 
         public List<BookDTO> FindBooksByBookIds(List<long> bookIdList)

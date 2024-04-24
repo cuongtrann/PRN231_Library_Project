@@ -164,15 +164,23 @@ namespace PRN231_Library_Project.Controllers
         [HttpDelete("secure/delete/book")]
         [Authorize]
 
-        public IActionResult DeleteBook([FromHeader] string authorization, [FromQuery] long bookId)
+        public IActionResult DeleteBook([FromHeader] string authorization, [FromQuery] int bookId)
         {
-            string isAdmin = ExtractJWT.PayloadJWTExtraction(authorization, "\"userType\"");
-            if (isAdmin == null || !isAdmin.Equals("admin"))
+            try
             {
-                return Unauthorized("Just for admin!");
+                string isAdmin = ExtractJWT.PayloadJWTExtraction(authorization, "\"userType\"");
+                if (isAdmin == null || !isAdmin.Equals("admin"))
+                {
+                    return Unauthorized("Just for admin!");
+                }
+                adminService.DeleteBook(bookId);
+                return NoContent();
             }
-            adminService.DeleteBook(bookId);
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
     }
